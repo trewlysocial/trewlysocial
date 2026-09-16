@@ -1,5 +1,84 @@
 # 🌐 Trewly Social Platform — Análisis Integral del Ecosistema
 
+<div align="center">
+
+**La red social de nueva generación que une gaming, comunidad, mensajería en tiempo real y personalización total.**
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.9+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Prisma](https://img.shields.io/badge/Prisma_ORM-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![WebRTC](https://img.shields.io/badge/WebRTC-Llamadas-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
+
+**[Soporte y Comunidad](https://trewly.me/c/trewly)** • **[Política de Privacidad](https://trewly.me/privacy)** • **[Términos de Servicio (ToS)](https://trewly.me/tos)**
+
+</div>
+
+---
+
+## 🏛️ Arquitectura del Sistema
+
+```mermaid
+flowchart TB
+    subgraph Clientes ["📱 Clientes Multiplataforma"]
+        direction LR
+        Mobile["App Móvil / Desktop\n(Flutter + Riverpod + WebRTC)"]
+        Web["Frontend Web\n(Next.js 16 + React 19 + Tailwind)"]
+    end
+
+    subgraph CapaTiempoReal ["⚡ Tiempo Real & Gateway"]
+        Gateway["Gateway WebSocket / Socket.io\n(Node.js + Redis Adapter)"]
+        Pusher["Pusher Channels\n(Eventos & Notificaciones)"]
+    end
+
+    subgraph BackendServicios ["⚙️ Backend & Lógica de Negocio"]
+        API["Next.js Server Actions & API Routes\n(/api/v1/...)"]
+        Auth["Auth & Passkeys FIDO2\n(SimpleWebAuthn / JWT / E2EE)"]
+        AI["Noa AI Engine\n(Google Gemini Generative AI)"]
+    end
+
+    subgraph Persistencia ["💾 Datos & Cache"]
+        DB[(PostgreSQL\nPrisma ORM 7)]
+        Redis[(Redis Cache\n& Pub/Sub)]
+    end
+
+    subgraph Externos ["🌐 Servicios Externos"]
+        Xbox["Xbox Live API\n(Logros, Clips & Presencia)"]
+        AWS["AWS S3 & MediaConvert\n(Multimedia & Video Processing)"]
+        MercadoPago["Mercado Pago SDK\n(Billetera & Pagos Fiat)"]
+        Firebase["Firebase Cloud Messaging\n(Push Notifications)"]
+    end
+
+    %% Conexiones Clientes
+    Mobile <--> |WebSockets & WebRTC| Gateway
+    Mobile <--> |HTTP / JSON APIs| API
+    Web <--> |Socket.io & Server Actions| Gateway
+    Web <--> |Server Actions & API| API
+
+    %% Conexiones Backend & Gateway
+    Gateway <--> Redis
+    API <--> Auth
+    API <--> AI
+    API <--> DB
+    API <--> Redis
+    Gateway -.-> Pusher
+
+    %% Conexiones Externas
+    API --> Xbox
+    API --> AWS
+    API --> MercadoPago
+    Mobile --> Firebase
+    Web --> Firebase
+```
+
+---
+
+## 📖 Visión General del Ecosistema
+
 **Trewly** es un ecosistema multiplataforma (Web y Móvil/Desktop) de **red social híbrida de nueva generación** que fusiona:
 1. **Gaming Hub & Showcase:** Integración profunda con plataformas de videojuegos (Xbox Live, Steam, etc.) para exhibir perfiles gamers, logros, estadísticas, clips y capturas.
 2. **Red Social Enriquecida:** Feed interactivo estilo X/Threads, historias efímeras (Stories), videos verticales (Shorts), hilos y blogs.
